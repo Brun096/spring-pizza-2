@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+    <link rel="stylesheet" href="../../static/css/application.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
+    <title>Spring Pizza</title>
+</head>
+
+<body>
+    <header>
+        <div class="container head">
+            <div>
+                <div class="logo">
+                    <a th:href="@{/}" class="pizza-logo">
+                        <h1>Spring Pizza</h1>
+
+                    </a>
+                    <a th:href="@{/}"><img th:src="@{/image/PizzalogoPng2.png}" alt=""></a>
+                </div>
+                <nav>
+                    <li><a th:href="@{/pizze}">Pizze</a></li>
+                    <li><a href="">Ingredienti</a></li>
+
+                    <span>
+                        <li class="add-pizza"><a th:href="@{/pizze/create}" class="link"><i
+                                    class="bi bi-plus-lg"></i>add
+                                pizze</a>
+                        </li>
+                    </span>
+                </nav>
+            </div>
+            <form class="search" th:action="@{pizze}" method="get">
+                <div class="search-style">
+                    <input name="keyword" th:value="${keyword}" type="search" placeholder="Search..">
+                    <button class="" type="submit"><i class="bi bi-search"></i></button>
+                </div>
+            </form>
+
+
+
+        </div>
+
+    </header>
+    <main class="container">
+        <section th:if="${list.size()>0}">
+
+            <div class="pizza-list">
+
+                <div class="name">name</div>
+                <div class="ingrediants">ingrediants</div>
+                <div class="price">price</div>
+                <div class="pizza-buttons">
+                    <p>detail</p>
+                    <p>edit</p>
+                    <p>delete</p>
+                </div>
+
+
+            </div>
+            <div class="pizza-body" th:each="item : ${list}">
+
+                <div class="name" th:text="${item.name}"></div>
+                <div class="ingrediants" th:text="|${item.ingredientiToString()}|"></div>
+                <div class="price" th:text="|${item.price} &euro;|"></div>
+
+                <div class="pizza-buttons">
+                    <a th:href="@{|/pizze/detail/${item.id}|}"><i class="bi bi-archive"></i></a>
+                    <a th:href="@{|/pizze/edit/${item.id}|}"><i class="bi bi-pen"></i></a>
+                    <a th:href="@{|/pizze/delete/${item.id}|}"><i class="bi bi-x-lg"></i></a>
+                </div>
+            </div>
+
+
+
+        </section>
+        <div class="no-list" th:unless="${list.size() > 0}">
+            There are no pizze in the database
+        </div>
+    </main>
+
+    </div>
+    <script>
+        window.onload = function () {
+            window.addEventListener("scroll", () => {
+                if (pageYOffset > 10) {
+                    document.querySelector('header').classList.add('active')
+                } else {
+                    document.querySelector('header').classList.remove('active')
+
+                }
+            })
+        }
+        let pizza_buttons = document.querySelectorAll('.pizza-buttons');
+        const pizza = document.querySelectorAll('.pizza-body');
+
+
+        for (let i = 0; i < pizza_buttons.length; i++) {
+            pizza_buttons[i].addEventListener('mouseover', () => {
+                pizza[i - 1].classList.add('active');
+
+
+
+            })
+        }
+
+        for (let i = 0; i < pizza_buttons.length; i++) {
+            pizza_buttons[i].addEventListener('mouseout', () => {
+                pizza[i - 1].classList.remove('active');
+
+
+
+            })
+        }
+        let search = document.querySelector('.search-style')
+        search.addEventListener('click', function () {
+            search.classList.add('active')
+        })
+    </script>
+</body>
+
+</html>

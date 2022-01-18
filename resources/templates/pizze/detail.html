@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/application.css}">
+	<link rel="stylesheet" href="../../static/css/application.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
+	<title th:text="${pizze.name}"></title>
+</head>
+
+<body>
+	<header>
+		<div class="container head">
+			<div>
+				<div class="logo">
+					<a th:href="@{/}">
+						<h1>Spring Pizza</h1>
+					</a>
+				</div>
+				<nav>
+					<li><a th:href="@{/pizze}">Pizze</a></li>
+					<li><a href="">Ingredienti</a></li>
+					<!-- <li><a href="">Users</a></li> -->
+					<span>
+						<li class="add-pizza"><a th:href="@{/pizze/create}" class="link"><i
+									class="bi bi-plus-lg"></i>add
+								pizze</a>
+						</li>
+					</span>
+				</nav>
+			</div>
+			<form class="search" th:action="@{pizze}" method="get">
+				<div class="search-style">
+					<input name="keyword" th:value="${keyword}" type="search" placeholder="Search..">
+					<button class="" type="submit"><i class="bi bi-search"></i></button>
+				</div>
+			</form>
+
+			<!--<div class="logo-image">
+                <a th:href="@{/}"><img th:src="@{/image/pizza-logo.jpg}" alt=""></a>
+            </div>-->
+
+		</div>
+
+	</header>
+	<main>
+		<section id="pizza-detail" class="container" th:object="${pizze}">
+			<div class="container" th:object="${pizze}">
+
+
+
+				<div class="row">
+					<div class="description">
+						<div class="detail-name">
+							<h1 th:text="*{name}"></h1>
+						</div>
+						<div class="col-8">
+							<div>
+								<div class="detail">
+									<strong>Prezzo</strong>
+									<div th:text="*{price}"></div>
+								</div>
+
+								<div class="detail">
+									<th:block th:unless=${#strings.isEmpty(pizze.ingredientiToString())}>
+										<strong>Ingrediants</strong>
+										<div th:text="*{ingredientiToString()}"></div>
+									</th:block>
+								</div>
+
+							</div>
+
+
+						</div>
+					</div>
+					<div class="image-detail">
+
+						<img th:src="@{|/image/*{name}.jpg|}" alt="">
+					</div>
+
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
+	<script>
+		gsap.to('#pizza-detail', {
+			y: 175
+		})
+
+	</script>
+</body>
+
+</html>
